@@ -1,3 +1,5 @@
+[![Build Status](https://dev.azure.com/pawsuwu/Taskban/_apis/build/status/jamerbi.Taskban?branchName=master)](https://dev.azure.com/pawsuwu/Taskban/_build/latest?definitionId=2&branchName=master)
+
 # Taskban
 
 A personal productivity tool developed with C# and XAML. I want it to be a combination of three tools: a task list, a Kanban board and a pomodoro. So, in the future, I will finish developing it.
