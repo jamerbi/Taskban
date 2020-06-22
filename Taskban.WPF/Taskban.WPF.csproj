@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Authors>Jacob Mercado</Authors>
+    <Product>Taskban</Product>
+    <Company>Jamerbi</Company>
+    <Version>0.1.0</Version>
+    <PackageIcon>icon.png</PackageIcon>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\logo.png" />
+    <None Include="..\..\..\..\Desktop\icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LiteDB" Version="5.0.8" />
+    <PackageReference Include="MahApps.Metro" Version="2.0.1" />
+    <PackageReference Include="MahApps.Metro.IconPacks.FeatherIcons" Version="4.2.0" />
+    <PackageReference Include="Syncfusion.SfKanban.WPF" Version="18.1.0.57" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+</Project>

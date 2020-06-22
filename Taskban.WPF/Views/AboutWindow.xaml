@@ -1,0 +1,39 @@
+﻿<Window x:Class="Taskban.WPF.Views.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        ResizeMode="NoResize"
+        mc:Ignorable="d"
+        Title="AboutWindow" Height="320" Width="320">
+    <StackPanel Width="200"
+                VerticalAlignment="Center">
+        <Image Source="/Resources/logo.png"
+               Width="100"/>
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Center">
+            <TextBlock>
+                Developed by
+                <Hyperlink Name="ProfileHyperlink"
+                           NavigateUri="https://twitter.com/jamerbi"
+                           RequestNavigate="ProfileHyperlink_RequestNavigate">
+                    Jacob Mer.
+                </Hyperlink>
+            </TextBlock>
+            <Border VerticalAlignment="Center"
+                    Margin="10 0 0 0">
+                <icon:PackIconFeatherIcons Kind="Twitter"/>
+            </Border>
+        </StackPanel>
+        <TextBlock TextAlignment="Center"
+                   Margin="10">
+            <Hyperlink NavigateUri="https://github.com/jamerbi/Taskban"
+                       RequestNavigate="Hyperlink_RequestNavigate">
+                Source Code
+            </Hyperlink>
+        </TextBlock>
+        <Button Content="Close"
+                Click="Button_Click"/>
+    </StackPanel>
+</Window>

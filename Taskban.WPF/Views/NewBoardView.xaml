@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="Taskban.WPF.Views.NewBoardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:viewModels="clr-namespace:Taskban.WPF.ViewModels"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance viewModels:NewBoardViewModel}"
+             d:DesignHeight="400" d:DesignWidth="400">
+
+    <StackPanel Orientation="Vertical" 
+                Margin="32"
+                VerticalAlignment="Center">
+        <Label Content="New Board" 
+               HorizontalAlignment="Center" 
+               FontSize="24" Margin="24"
+               FontWeight="Bold" />
+        <TextBox Text="{Binding Board.Name, UpdateSourceTrigger=PropertyChanged}" 
+                 Margin="0 10 0 10" 
+                 mah:TextBoxHelper.Watermark="Name" 
+                 mah:TextBoxHelper.UseFloatingWatermark="True" />
+        <TextBox Text="{Binding Board.Description}" 
+                 Margin="0 0 0 10" 
+                 MinLines="3" 
+                 TextWrapping="Wrap"
+                 mah:TextBoxHelper.Watermark="Description"
+                 mah:TextBoxHelper.UseFloatingWatermark="True" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button Command="{Binding CancelCommand}" 
+                    Grid.Column="0" Content="Cancel" 
+                    HorizontalAlignment="Left" 
+                    Width="100"/>
+            <Button Command="{Binding SaveCommand}" 
+                    Grid.Column="1" 
+                    Content="Create" 
+                    HorizontalAlignment="Right"
+                    Width="100" />
+        </Grid>
+    </StackPanel>
+</UserControl>

@@ -1,0 +1,314 @@
+﻿<mah:MetroWindow x:Class="Taskban.WPF.Views.BoardWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                 xmlns:syncfusion="clr-namespace:Syncfusion.UI.Xaml.Kanban;assembly=Syncfusion.SfKanban.WPF"
+                 xmlns:viewModels="clr-namespace:Taskban.WPF.ViewModels"
+                 xmlns:entities="clr-namespace:Taskban.WPF.Entities"
+                 xmlns:converters="clr-namespace:Taskban.WPF.Converters"
+                 xmlns:icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                 Closed="BoardWindow_OnClosed"
+                 d:DataContext="{d:DesignInstance viewModels:BoardViewModel}"
+                 mc:Ignorable="d"
+                 Title="Taskban" Height="450" Width="800">
+
+    <mah:MetroWindow.Resources>
+        <converters:SubTasksToStringConverter x:Key="ToStringConverter" />
+        <converters:StringToColorConverter x:Key="StringToColorConverter" />
+        <converters:FromNumberToVisibilityConverter x:Key="FromNumberToVisibilityConverter" />
+    </mah:MetroWindow.Resources>
+    <mah:MetroWindow.LeftWindowCommands>
+        <mah:WindowCommands>
+            <Button Content="{Binding Board.Name}" />
+        </mah:WindowCommands>
+    </mah:MetroWindow.LeftWindowCommands>
+
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Boards">
+                <MenuItem Header="Save board"
+                          Command="{Binding SaveBoardCommand}" />
+                <MenuItem Header="Close this board"
+                          Command="{Binding CloseBoardCommand}" />
+            </MenuItem>
+            <MenuItem Header="Options">
+                <MenuItem Name="AboutMenuItem"
+                          Header="About"
+                          Click="AboutMenuItem_Click"/>
+            </MenuItem>
+        </Menu>
+
+        <Border DockPanel.Dock="Left"
+                BorderThickness="0 1 1 0"
+                BorderBrush="DarkGray"
+                Width="{Binding TaskViewWidth}">
+            <DockPanel>
+                <Border DockPanel.Dock="Bottom"
+                        BorderThickness="1"
+                        BorderBrush="DarkGray"
+                        Height="50">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="8*" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0"
+                                Command="{Binding CloseTaskViewCommand}">
+                            <Button.ContentTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <icon:FeatherIcons Kind="ArrowLeft" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </Button.ContentTemplate>
+                        </Button>
+                        <StackPanel
+                            Grid.Column="1"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                            <TextBlock Text ="{Binding SelectedTask.CreatedAt, 
+                                                StringFormat=Created at {0:t}}"
+                                       FontSize="11"
+                                       TextWrapping="Wrap"
+                                       TextAlignment="Center"/>
+                            <TextBlock Text ="{Binding SelectedTask.CreatedAt, 
+                                                StringFormat={}{0:D}}"
+                                       FontSize="11"
+                                       TextWrapping="Wrap"
+                                       TextAlignment="Center"/>
+                        </StackPanel>
+                        <Button Grid.Column="2"
+                                Command="{Binding DeleteTaskCommand}">
+                            <Button.ContentTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <icon:FeatherIcons Kind="Trash2" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </Button.ContentTemplate>
+                        </Button>
+                    </Grid>
+                </Border>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Margin="10">
+                            <TextBox Text="{Binding SelectedTask.Title, UpdateSourceTrigger=PropertyChanged}"
+                                     mah:TextBoxHelper.Watermark="Title"
+                                     mah:TextBoxHelper.UseFloatingWatermark="True"
+                                     FontWeight="Bold"
+                                     FontSize="16"
+                                     Margin="0 0 0 10" />
+                            <ItemsControl ItemsSource="{Binding SelectedTask.SubTasks}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <DockPanel VerticalAlignment="Center"
+                                                   Margin="0 0 0 10">
+                                            <CheckBox IsChecked="{Binding Completed}"
+                                                      DockPanel.Dock="Left"
+                                                      Margin="0 0 10 0" />
+                                            <Button DockPanel.Dock="Right"
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}, Path=DataContext.DeleteSubTaskCommand}"
+                                                    CommandParameter="{Binding}"
+                                                    Margin="10 0 0 0"
+                                                    Width="30"
+                                                    Height="30"
+                                                    Content="X" />
+                                            <TextBox Text="{Binding Title}"
+                                                     TextWrapping="Wrap"
+                                                     mah:TextBoxHelper.Watermark="Add sub task" />
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <DockPanel VerticalAlignment="Center"
+                                       Margin="0 0 0 10">
+                                <CheckBox x:Name="SubTaskIsCompletedCheckBox"
+                                          IsChecked="{Binding NewSubTask.Completed, Mode=TwoWay}"
+                                          DockPanel.Dock="Left"
+                                          Margin="0 0 10 0">
+                                    <CheckBox.InputBindings>
+                                        <KeyBinding
+                                            Command="{Binding AddSubTaskCommand}"
+                                            Key="Enter" />
+                                    </CheckBox.InputBindings>
+                                </CheckBox>
+                                <TextBox x:Name="SubTaskTitleTextBox"
+                                         Text="{Binding NewSubTask.Title, UpdateSourceTrigger=PropertyChanged ,Mode=TwoWay}"
+                                         TextWrapping="Wrap"
+                                         mah:TextBoxHelper.Watermark="Add sub task">
+                                    <TextBox.InputBindings>
+                                        <KeyBinding
+                                            Command="{Binding AddSubTaskCommand}"
+                                            Key="Enter" />
+                                    </TextBox.InputBindings>
+                                </TextBox>
+                            </DockPanel>
+                            <TextBox Name="TaskTagTextBox"
+                                     Margin="0 0 0 10"
+                                     mah:TextBoxHelper.UseFloatingWatermark="True"
+                                     mah:TextBoxHelper.Watermark="Add tags">
+                                <TextBox.InputBindings>
+                                    <KeyBinding Command="{Binding AddTagCommand}"
+                                                CommandParameter="{Binding ElementName=TaskTagTextBox, Path=Text}"
+                                                Key="Enter" />
+                                </TextBox.InputBindings>
+                            </TextBox>
+                            <ItemsControl ItemsSource="{Binding SelectedTask.Tags}"
+                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                          ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                          Margin="0 0 0 10">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="DodgerBlue"
+                                                Margin="4"
+                                                CornerRadius="4">
+                                            <DockPanel>
+                                                <Button DockPanel.Dock="Right"
+                                                        Content="X"
+                                                        Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}, Path=DataContext.DeleteTagCommand}"
+                                                        CommandParameter="{Binding}" />
+                                                <Label Content="{Binding Name}"
+                                                       Foreground="White" />
+                                            </DockPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <TextBox Text="{Binding SelectedTask.Category}"
+                                     Margin="0 0 0 10"
+                                     IsEnabled="False"
+                                     mah:TextBoxHelper.Watermark="Category"
+                                     mah:TextBoxHelper.UseFloatingWatermark="True" />
+                            <ComboBox Text="{Binding SelectedTask.Priority}"
+                                      IsEditable="False"
+                                      Margin="0 0 0 10"
+                                      mah:TextBoxHelper.Watermark="Priority"
+                                      mah:TextBoxHelper.UseFloatingWatermark="True">
+                                <ComboBoxItem>None</ComboBoxItem>
+                                <ComboBoxItem>High</ComboBoxItem>
+                                <ComboBoxItem>Medium</ComboBoxItem>
+                                <ComboBoxItem>Low</ComboBoxItem>
+                            </ComboBox>
+                            <TextBox Text="{Binding SelectedTask.Description, UpdateSourceTrigger=PropertyChanged}"
+                                     Margin="0 0 0 10"
+                                     FontSize="14"
+                                     mah:TextBoxHelper.UseFloatingWatermark="True"
+                                     TextWrapping="Wrap"
+                                     AcceptsTab="True"
+                                     AcceptsReturn="True"
+                                     mah:TextBoxHelper.Watermark="Notes"
+                                     MinLines="3" />
+                            <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                     ScrollViewer.VerticalScrollBarVisibility="Disabled" />
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </DockPanel>
+        </Border>
+        <Border BorderBrush="DarkGray" BorderThickness="0 1 0 0">
+            <syncfusion:SfKanban MinColumnWidth="200"
+                                 MaxColumnWidth="400"
+                                 Margin="0"
+                                 AutoGenerateColumns="False"
+                                 ColumnMappingPath="Category"
+                                 CardTapped="SfKanban_OnCardTapped"
+                                 ItemsSource="{Binding Board.Tasks}">
+                <syncfusion:SfKanban.ColumnHeaderTemplate>
+                    <DataTemplate DataType="syncfusion:ColumnTag">
+                        <Border>
+                            <StackPanel Orientation="Vertical"
+                                        Margin="0 10 0 0">
+                                <DockPanel>
+                                    <Button DockPanel.Dock="Right"
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type syncfusion:SfKanban}}, Path=DataContext.AddTaskCommand}"
+                                            CommandParameter="{Binding Header}">
+                                        <Button.ContentTemplate>
+                                            <DataTemplate>
+                                                <StackPanel>
+                                                    <icon:FeatherIcons Kind="Plus" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </Button.ContentTemplate>
+                                    </Button>
+                                    <TextBlock Text="{Binding Header}"
+                                               FontSize="20" />
+                                </DockPanel>
+                                <TextBlock Text="{Binding CardCount, StringFormat=Tasks: {0}}"
+                                           FontSize="16"
+                                           Margin="0 10 0 0"
+                                           FontWeight="Thin" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </syncfusion:SfKanban.ColumnHeaderTemplate>
+                <syncfusion:SfKanban.CardTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="{Binding Priority, Converter={StaticResource StringToColorConverter}}"
+                                BorderThickness="1"
+                                CornerRadius="4"
+                                Background="White"
+                                Margin="0,5,0,5" d:DataContext="{d:DesignInstance entities:Task}">
+                            <StackPanel Margin="10,5,5,10">
+                                <TextBox Text="{Binding Title}"
+                                         TextWrapping="Wrap"
+                                         MaxLines="2"
+                                         BorderThickness="0"
+                                         IsEnabled="False"
+                                         FontWeight="Bold"
+                                         FontSize="16" />
+                                <StackPanel Orientation="Horizontal"
+                                            Margin="6 0 0 0">
+                                    <Border VerticalAlignment="Center"
+                                            Visibility="{Binding ElementName=SubtasksCountLabel, Path=Visibility}">
+                                        <icon:FeatherIcons Kind="CheckSquare" />
+                                    </Border>
+                                    <Label Name="SubtasksCountLabel"
+                                           Content="{Binding SubTasks, Converter={StaticResource ToStringConverter}}"
+                                           Visibility="{Binding SubTasks.Count, Converter={StaticResource FromNumberToVisibilityConverter}}" />
+                                </StackPanel>
+                                <TextBox FontSize="14"
+                                         BorderThickness="0"
+                                         IsEnabled="False"
+                                         HorizontalAlignment="Left"
+                                         Text="{Binding Description}"
+                                         MaxLines="3"
+                                         TextWrapping="Wrap" />
+                                <ItemsControl ItemsSource="{Binding Tags}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Background="DodgerBlue"
+                                                    Margin="4"
+                                                    CornerRadius="4"
+                                                    Padding="4 0 4 2">
+                                                <TextBlock Text="{Binding Name}"
+                                                           Foreground="White" />
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </syncfusion:SfKanban.CardTemplate>
+                <syncfusion:KanbanColumn Categories="Backlog" Title="Backlog" />
+                <syncfusion:KanbanColumn Categories="To Do" Title="To Do" />
+                <syncfusion:KanbanColumn Categories="In Progress" Title="In Progress" />
+                <syncfusion:KanbanColumn Categories="Review" Title="Review" />
+                <syncfusion:KanbanColumn Categories="Completed" Title="Completed" />
+            </syncfusion:SfKanban>
+        </Border>
+    </DockPanel>
+</mah:MetroWindow>

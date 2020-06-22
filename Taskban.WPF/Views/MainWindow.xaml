@@ -1,0 +1,88 @@
+﻿<mah:MetroWindow 
+    x:Class="Taskban.WPF.Views.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converter="clr-namespace:Taskban.WPF.Converters"
+    xmlns:viewmodel="clr-namespace:Taskban.WPF.ViewModels"
+    xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:view="clr-namespace:Taskban.WPF.Views"
+    mc:Ignorable="d"
+    xmlns:icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    Title="Taskban" Height="400" Width="600"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterScreen"
+    d:DataContext="{d:DesignInstance viewmodel:MainViewModel}">
+
+    <mah:MetroWindow.Resources>
+        <converter:CountToWidthConverter x:Key="WidthConverter" />
+        <converter:ButtonVisibilityConverter x:Key="ButtonVisibilityConverter" />
+        <DataTemplate DataType="{x:Type viewmodel:HomeViewModel}">
+            <view:HomeView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodel:NewBoardViewModel}">
+            <view:NewBoardView />
+        </DataTemplate>
+    </mah:MetroWindow.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="{Binding ListBoxSource.Count, Converter={StaticResource WidthConverter}}" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <ListBox Grid.Column="0" 
+                 ItemsSource="{Binding ListBoxSource}" 
+                 SelectedItem="{Binding SelectedBoard}"
+                 BorderThickness="0 0 1 0" 
+                 BorderBrush="DarkGray" 
+                 HorizontalContentAlignment="Stretch" 
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 ScrollViewer.VerticalScrollBarVisibility="Disabled" >
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Padding" Value="4" />
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Name="TaskListItem">
+                        <Grid.InputBindings>
+                            <MouseBinding Gesture="LeftDoubleClick" 
+                                          Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}, Path=DataContext.OpenBoardCommand}" />
+                        </Grid.InputBindings>
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="AllowDrop" Value="False" />
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="AllowDrop" Value="True" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Style>
+                        <StackPanel Orientation="Vertical">
+                            <Label Content="{Binding Name}" FontWeight="Bold" />
+                            <Label Content="{Binding Description}" />
+                        </StackPanel>
+                        <Button HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}, Path=DataContext.DeleteBoardCommand}"
+                                CommandParameter="{Binding}"
+                                Visibility="{Binding ElementName=TaskListItem, Path=AllowDrop, Converter={StaticResource ButtonVisibilityConverter}}">
+                            <Button.ContentTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <icon:FeatherIcons Kind="X" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </Button.ContentTemplate>
+                        </Button>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <mah:TransitioningContentControl Grid.Column="1" Content="{Binding CurrentViewModel}" Transition="Left"/>
+    </Grid>
+</mah:MetroWindow>
