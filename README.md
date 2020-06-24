@@ -7,6 +7,7 @@ A personal productivity tool developed with C# and XAML. I want it to be a combi
 ## Details
 
 The application is simple and only needs a computer with Windows 7, 8 or 10 and Net Core 3.1+ installed. When you run the application, a taskban.db database file is created where the changes made are stored.
+* The app requires a Syncfusion license due to the use of WPF Kanban Board which is theirs, but they provide a free community license here: https://www.syncfusion.com/products/communitylicense
 
 ## Features
 
