@@ -14,19 +14,19 @@ The application is simple and only needs a computer with Windows 7, 8 or 10 and 
 #### A clean, simple UI
 * the description is optional
 
-![Image of app](Taskban.WPF/readmeimages/features4.gif)
-![Image of app](Taskban.WPF/readmeimages/features5.png)
+![Image of app](readmeimages/features4.gif)
+![Image of app](readmeimages/features5.png)
 
 * Manage all your boards from the main window. Double-click to access an already created board or click on the X button to delete it
 
-![Image of app](Taskban.WPF/readmeimages/features2.gif)
+![Image of app](readmeimages/features2.gif)
 
 #### Data Binding everywhere (almost) easy and quick way to create tasks
 * Fill in the cards with the information you require, you can give them priority and visibility with tags
-![Image of app](Taskban.WPF/readmeimages/features1.gif)
+![Image of app](readmeimages/features1.gif)
 
 * Drag, add, edit and delete cards quickly
-![Image of app](Taskban.WPF/readmeimages/features3.gif)
+![Image of app](readmeimages/features3.gif)
 
 ## Features I will be adding in the future
 * Touch screen support
