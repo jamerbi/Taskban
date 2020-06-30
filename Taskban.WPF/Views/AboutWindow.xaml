@@ -10,7 +10,7 @@
     <StackPanel Width="200"
                 VerticalAlignment="Center">
         <Image Source="/Resources/logo.png"
-               Width="100"/>
+               Width="100" />
         <StackPanel Orientation="Horizontal"
                     HorizontalAlignment="Center">
             <TextBlock>
@@ -23,7 +23,7 @@
             </TextBlock>
             <Border VerticalAlignment="Center"
                     Margin="10 0 0 0">
-                <icon:PackIconFeatherIcons Kind="Twitter"/>
+                <icon:PackIconFeatherIcons Kind="Twitter" />
             </Border>
         </StackPanel>
         <TextBlock TextAlignment="Center"
@@ -34,6 +34,6 @@
             </Hyperlink>
         </TextBlock>
         <Button Content="Close"
-                Click="Button_Click"/>
+                Click="Button_Click" />
     </StackPanel>
 </Window>

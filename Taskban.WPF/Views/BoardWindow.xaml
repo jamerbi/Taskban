@@ -36,7 +36,7 @@
             <MenuItem Header="Options">
                 <MenuItem Name="AboutMenuItem"
                           Header="About"
-                          Click="AboutMenuItem_Click"/>
+                          Click="AboutMenuItem_Click" />
             </MenuItem>
         </Menu>
 
@@ -69,16 +69,18 @@
                             Grid.Column="1"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center">
-                            <TextBlock Text ="{Binding SelectedTask.CreatedAt, 
+                            <TextBlock
+                                Text="{Binding SelectedTask.CreatedAt, 
                                                 StringFormat=Created at {0:t}}"
-                                       FontSize="11"
-                                       TextWrapping="Wrap"
-                                       TextAlignment="Center"/>
-                            <TextBlock Text ="{Binding SelectedTask.CreatedAt, 
+                                FontSize="11"
+                                TextWrapping="Wrap"
+                                TextAlignment="Center" />
+                            <TextBlock
+                                Text="{Binding SelectedTask.CreatedAt, 
                                                 StringFormat={}{0:D}}"
-                                       FontSize="11"
-                                       TextWrapping="Wrap"
-                                       TextAlignment="Center"/>
+                                FontSize="11"
+                                TextWrapping="Wrap"
+                                TextAlignment="Center" />
                         </StackPanel>
                         <Button Grid.Column="2"
                                 Command="{Binding DeleteTaskCommand}">

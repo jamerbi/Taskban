@@ -1,4 +1,4 @@
-﻿<mah:MetroWindow 
+﻿<mah:MetroWindow
     x:Class="Taskban.WPF.Views.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -32,14 +32,14 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <ListBox Grid.Column="0" 
-                 ItemsSource="{Binding ListBoxSource}" 
+        <ListBox Grid.Column="0"
+                 ItemsSource="{Binding ListBoxSource}"
                  SelectedItem="{Binding SelectedBoard}"
-                 BorderThickness="0 0 1 0" 
-                 BorderBrush="DarkGray" 
-                 HorizontalContentAlignment="Stretch" 
+                 BorderThickness="0 0 1 0"
+                 BorderBrush="DarkGray"
+                 HorizontalContentAlignment="Stretch"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                 ScrollViewer.VerticalScrollBarVisibility="Disabled" >
+                 ScrollViewer.VerticalScrollBarVisibility="Disabled">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
                     <Setter Property="Padding" Value="4" />
@@ -49,7 +49,7 @@
                 <DataTemplate>
                     <Grid Name="TaskListItem">
                         <Grid.InputBindings>
-                            <MouseBinding Gesture="LeftDoubleClick" 
+                            <MouseBinding Gesture="LeftDoubleClick"
                                           Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}, Path=DataContext.OpenBoardCommand}" />
                         </Grid.InputBindings>
                         <Grid.Style>
@@ -83,6 +83,6 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <mah:TransitioningContentControl Grid.Column="1" Content="{Binding CurrentViewModel}" Transition="Left"/>
+        <mah:TransitioningContentControl Grid.Column="1" Content="{Binding CurrentViewModel}" Transition="Left" />
     </Grid>
 </mah:MetroWindow>

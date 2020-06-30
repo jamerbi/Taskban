@@ -2,7 +2,6 @@
 using Taskban.WPF.Entities;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using System.Linq;
 
 namespace Taskban.WPF.ViewModels
 {
@@ -42,8 +41,8 @@ namespace Taskban.WPF.ViewModels
 
         public MainViewModel()
         {
-            _homeViewModel = new HomeViewModel(() => CurrentViewModel = _boardViewModel);
-            _boardViewModel = new NewBoardViewModel(() => CurrentViewModel = _homeViewModel);
+            _homeViewModel = new HomeViewModel(GoToBoardView);
+            _boardViewModel = new NewBoardViewModel(GoToHomeView);
 
             CurrentViewModel = _homeViewModel;
 
@@ -53,9 +52,19 @@ namespace Taskban.WPF.ViewModels
             ListBoxSource = new ObservableCollection<Board>(App.UnitOfWork.Boards.Get(orderBy: board => board.CreatedAt, ascending: false));
         }
 
+        private void GoToBoardView()
+        {
+            CurrentViewModel = _boardViewModel;
+        }
+
+        private void GoToHomeView()
+        {
+            CurrentViewModel = _homeViewModel;
+        }
+
         private void DeleteBoard(object parameter)
         {
-            var board = (Board)parameter;
+            var board = (Board) parameter;
             ListBoxSource.Remove(board);
             App.UnitOfWork.Boards.Delete(board.Id);
         }

@@ -9,20 +9,20 @@
              d:DataContext="{d:DesignInstance viewModels:NewBoardViewModel}"
              d:DesignHeight="400" d:DesignWidth="400">
 
-    <StackPanel Orientation="Vertical" 
+    <StackPanel Orientation="Vertical"
                 Margin="32"
                 VerticalAlignment="Center">
-        <Label Content="New Board" 
-               HorizontalAlignment="Center" 
+        <Label Content="New Board"
+               HorizontalAlignment="Center"
                FontSize="24" Margin="24"
                FontWeight="Bold" />
-        <TextBox Text="{Binding Board.Name, UpdateSourceTrigger=PropertyChanged}" 
-                 Margin="0 10 0 10" 
-                 mah:TextBoxHelper.Watermark="Name" 
+        <TextBox Text="{Binding Board.Name, UpdateSourceTrigger=PropertyChanged}"
+                 Margin="0 10 0 10"
+                 mah:TextBoxHelper.Watermark="Name"
                  mah:TextBoxHelper.UseFloatingWatermark="True" />
-        <TextBox Text="{Binding Board.Description}" 
-                 Margin="0 0 0 10" 
-                 MinLines="3" 
+        <TextBox Text="{Binding Board.Description}"
+                 Margin="0 0 0 10"
+                 MinLines="3"
                  TextWrapping="Wrap"
                  mah:TextBoxHelper.Watermark="Description"
                  mah:TextBoxHelper.UseFloatingWatermark="True" />
@@ -31,13 +31,13 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Button Command="{Binding CancelCommand}" 
-                    Grid.Column="0" Content="Cancel" 
-                    HorizontalAlignment="Left" 
-                    Width="100"/>
-            <Button Command="{Binding SaveCommand}" 
-                    Grid.Column="1" 
-                    Content="Create" 
+            <Button Command="{Binding CancelCommand}"
+                    Grid.Column="0" Content="Cancel"
+                    HorizontalAlignment="Left"
+                    Width="100" />
+            <Button Command="{Binding SaveCommand}"
+                    Grid.Column="1"
+                    Content="Create"
                     HorizontalAlignment="Right"
                     Width="100" />
         </Grid>

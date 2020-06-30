@@ -22,7 +22,7 @@ namespace Taskban.WPF.ViewModels
                 OnPropertyChanged();
             }
         }
-        
+
         private Task _selectedTask = new Task();
 
         public Task SelectedTask
@@ -84,7 +84,7 @@ namespace Taskban.WPF.ViewModels
 
         private void CloseBoardShowMain(object parameter)
         {
-           SaveBoard(parameter);
+            SaveBoard(parameter);
             App.WindowService.ShowMainCloseBoard();
         }
 
@@ -115,7 +115,7 @@ namespace Taskban.WPF.ViewModels
                 Priority = "None", Tags = new ObservableCollection<Tag>()
             };
 
-            Board.Tasks.Insert(0 ,task);
+            Board.Tasks.Insert(0, task);
             SelectedTask = task;
             TaskViewWidth = 250;
         }

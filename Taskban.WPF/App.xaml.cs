@@ -16,7 +16,7 @@ namespace Taskban.WPF
 
             base.OnStartup(e);
         }
-  
+
         protected override void OnExit(ExitEventArgs e)
         {
             UnitOfWork.Dispose();

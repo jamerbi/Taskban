@@ -29,7 +29,7 @@
                         IsSnapToTickEnabled="True"
                         Minimum="200"
                         Maximum="500"
-                        Value="{Binding TaskViewWidth}"/>
+                        Value="{Binding TaskViewWidth}" />
             </DockPanel>
 
         </StackPanel>
