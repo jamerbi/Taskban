@@ -12,7 +12,7 @@
                  Closed="BoardWindow_OnClosed"
                  d:DataContext="{d:DesignInstance viewModels:BoardViewModel}"
                  mc:Ignorable="d"
-                 Title="Taskban" Height="450" Width="800">
+                 Title="Taskban" Height="450" Width="800" WindowState="Maximized">
 
     <mah:MetroWindow.Resources>
         <converters:SubTasksToStringConverter x:Key="ToStringConverter" />
