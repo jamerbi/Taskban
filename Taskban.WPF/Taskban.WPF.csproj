@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="LiteDB" Version="5.0.8" />
+    <PackageReference Include="LiteDB" Version="5.0.13" />
     <PackageReference Include="MahApps.Metro" Version="2.0.1" />
     <PackageReference Include="MahApps.Metro.IconPacks.FeatherIcons" Version="4.2.0" />
     <PackageReference Include="Syncfusion.SfKanban.WPF" Version="18.1.0.57" />
